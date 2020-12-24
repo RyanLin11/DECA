@@ -1,0 +1,17 @@
+{% extends "quiz/base.html" %}
+{% block content %}
+    {% for exam in Exams %}
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Exam {{exam.exam_number}}</h4>
+                <p class="card-text">{{exam.get_exam_cluster_display}}</p>
+                {% if exam.userexam_set.first.is_finished %}
+                    <p class="card-text">Score: {{exam.userexam_set.first.score}}</p>
+                {% else %}
+                    <p class="card-text">In-Progress</p>
+                {% endif %}
+                <a href="{% url 'quiz:exam' num=exam.exam_number %}" class="card-link">Enter>></a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
