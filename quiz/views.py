@@ -57,8 +57,14 @@ def grade(request, num):
             user_exam.is_finished = True
             user_exam.score = score
             user_exam.save()
-        return redirect('quiz:quiz')
+        return redirect('quiz:results', num=num)
     return render(request, 'quiz/index.html')
-    
+
+@login_required(login_url='accounts:login')
+def results(request, num):
+    all_answers = UserAnswer.objects.filter(user_exam__exam__exam_number=num)
+    correct_answers = all_answers.filter(choice__is_correct=True)
+    incorrect_answers = all_answers.filter(choice__is_correct=False)
+    return render(request, 'quiz/result.html', {'correct':correct_answers, 'incorrect':incorrect_answers})
                 
             

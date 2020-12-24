@@ -1,0 +1,30 @@
+{% extends 'quiz/base.html' %}
+{% block content %}
+<h1>Score: {{correct.count}}</h1>
+{% if incorrect.count > 0 %}
+    <h1>Incorrect Answers</h1>
+    {% for answer in incorrect %}
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">#{{forloop.counter}}. {{answer.question.question_text}}</h4>
+            {% for choice in answer.question.choice_set.all %}
+                {% if answer.choice == choice %}
+                    <input type="radio" name="{{answer.question.id}}" id="{{choice.id}}" value="{{choice.id}}" style="color:red" disabled="disabled" checked>
+                    <label for="{{choice.id}}" style="color:red">{{choice.choice_text}}</label><br>
+                {% else %}
+                    <input type="radio" name="{{answer.question.id}}" id="{{choice.id}}" disabled="disabled" value="{{choice.id}}">
+                    {% if choice.is_correct %}
+                        <label for="{{choice.id}}" style="color:limegreen">{{choice.choice_text}}</label><br>
+                    {% else %}
+                        <label for="{{choice.id}}">{{choice.choice_text}}</label><br>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <h1>All Correct!</h1>
+{% endif %}
+<a href="{% url 'quiz:quiz' %}">Back to List</a>
+{% endblock %}
