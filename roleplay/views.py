@@ -12,7 +12,8 @@ def index(request):
 def case(request, pk):
     form = SubmissionForm()
     if request.method == 'POST':
-        form = SubmissionForm(request.POST, request.FILES)
+        sub = Submission(student=request.user, case=Case.objects.get(pk=pk))
+        form = SubmissionForm(request.POST, request.FILES, instance=sub)
         if form.is_valid():
             form.save()
         return redirect('roleplay')

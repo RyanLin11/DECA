@@ -45,17 +45,16 @@ class PI(models.Model):
 
 class CaseQuestion(models.Model):
     case = models.ForeignKey(Case, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=200)
 
     def __str__(self):
         return self.title
 
 class Submission(models.Model):
-    #case = models.ForeignKey(Case, on_delete=models.CASCADE)
-    #student = models.ForeignKey(User, on_delete=models.CASCADE)
+    case = models.ForeignKey(Case, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now, blank=True)
     audio_file = models.FileField(upload_to="case/audio/")
     
     def __str__(self):
-        #return self.case.title+" ("+self.student.username+")"
-        return str(self.pk)
+        return self.case.title+" ("+self.student.username+")"

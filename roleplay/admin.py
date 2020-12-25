@@ -22,6 +22,9 @@ class CaseAdmin(admin.ModelAdmin):
     ]
     inlines = [PIInline, CaseQuestionInline]
 
+class SubmissionAdmin(admin.ModelAdmin):
+    list_display = ('case','student','date')
+
 admin.site.register(Cluster, ClusterAdmin)
 admin.site.register(Case, CaseAdmin)
-admin.site.register(Submission)
+admin.site.register(Submission, SubmissionAdmin)
