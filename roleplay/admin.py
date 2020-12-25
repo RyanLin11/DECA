@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cluster, Event, Case, PI, CaseQuestion
+from .models import Cluster, Event, Case, PI, CaseQuestion, Submission
 
 # Register your models here.
 class EventInline(admin.TabularInline):
@@ -24,3 +24,4 @@ class CaseAdmin(admin.ModelAdmin):
 
 admin.site.register(Cluster, ClusterAdmin)
 admin.site.register(Case, CaseAdmin)
+admin.site.register(Submission)

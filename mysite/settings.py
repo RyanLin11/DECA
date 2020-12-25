@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'leaderboard.apps.LeaderboardConfig',
     'roleplay.apps.RoleplayConfig',
+    'django_cleanup',
 ]
 
 MIDDLEWARE = [
@@ -117,8 +118,14 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+FILE_UPLOAD_HANDLERS = [
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
+]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = "/media/"

@@ -2,7 +2,7 @@
 {% block content %}
 <h1>{{case.title}}</h1>
 <p>{{case.event.title}} - {{case.year}} {{case.get_level_display}}</p>
-<a href="{% url 'roleplay' %}">Back to Case List</a>
+<a href="{% url 'roleplay' %}" class="btn btn-link">Back to Case List</a>
 <h2>Performance Indicators</h2>
 <ul>
     {% for pi in case.pi_set.all %}
@@ -17,4 +17,10 @@
         <li>{{question.title}}</li>
     {% endfor %}
 </ul>
+<form action='' method='POST' enctype='multipart/form-data'>
+    {% csrf_token %}
+    <!--{{form.as_p}}-->
+    <input type="file" name="audio_file">
+    <button type='submit' class="btn btn-primary">Submit</button>
+</form>
 {% endblock %}
