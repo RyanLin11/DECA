@@ -1,0 +1,20 @@
+{% extends 'quiz/base.html' %}
+{% block content %}
+<h1>{{case.title}}</h1>
+<p>{{case.event.title}} - {{case.year}} {{case.get_level_display}}</p>
+<a href="{% url 'roleplay' %}">Back to Case List</a>
+<h2>Performance Indicators</h2>
+<ul>
+    {% for pi in case.pi_set.all %}
+        <li>{{pi.title}}</li>
+    {% endfor %}
+</ul>
+<h2>Case Situation</h2>
+<p>{{case.description}}</p>
+<h2>Questions</h2>
+<ul>
+    {% for question in case.casequestion_set.all %}
+        <li>{{question.title}}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

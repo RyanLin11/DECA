@@ -10,7 +10,7 @@
                 {% else %}
                     <p class="card-text">In-Progress</p>
                 {% endif %}
-                <a href="{% url 'quiz:exam' num=exam.exam_number %}" class="card-link">Enter>></a>
+                <a href="{% url 'quiz:exam' num=exam.exam_number %}" class="btn btn-primary">Enter</a>
             </div>
         </div>
     {% endfor %}

@@ -1,6 +1,7 @@
 {% extends 'quiz/base.html' %}
 {% block content %}
 <h1>Score: {{correct.count}}</h1>
+<a href="{% url 'quiz:quiz' %}">Back to List</a>
 {% if incorrect.count > 0 %}
     <h1>Incorrect Answers</h1>
     {% for answer in incorrect %}
@@ -26,5 +27,4 @@
 {% else %}
     <h1>All Correct!</h1>
 {% endif %}
-<a href="{% url 'quiz:quiz' %}">Back to List</a>
 {% endblock %}

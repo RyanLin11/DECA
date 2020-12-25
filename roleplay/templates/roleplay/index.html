@@ -1,0 +1,12 @@
+{% extends 'quiz/base.html' %}
+{% block content %}
+{% for case in cases %}
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">{{case.title}}</h4>
+            <p class="card-text">{{case.event.title}}</p>
+            <a href="{% url 'case' pk=case.id %}" class="btn btn-primary">Enter</a>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

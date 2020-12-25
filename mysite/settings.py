@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'quiz.apps.QuizConfig',
     'accounts.apps.AccountsConfig',
     'leaderboard.apps.LeaderboardConfig',
+    'roleplay.apps.RoleplayConfig',
 ]
 
 MIDDLEWARE = [
