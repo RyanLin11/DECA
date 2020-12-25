@@ -24,7 +24,8 @@ class CaseAdmin(admin.ModelAdmin):
 
 class SubmissionAdmin(admin.ModelAdmin):
     list_display = ('case','student','date')
-
+    ordering = ('date',)
+    
 admin.site.register(Cluster, ClusterAdmin)
 admin.site.register(Case, CaseAdmin)
 admin.site.register(Submission, SubmissionAdmin)

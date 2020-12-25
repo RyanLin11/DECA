@@ -1,0 +1,14 @@
+{% extends 'quiz/base.html' %}
+{% block content %}
+<h1>{{submission.case.title}}</h1>
+<p>Event: {{submission.case.event.title}}</p>
+<p>Date: {{submission.date}}</p>
+<h2>Your Strengths: </h2>
+<p>{{submission.feedback_strength}}</p>
+<h2>Suggestions for Improvement: </h2>
+<p>{{submission.feedback_improvement}}</p>
+<br>
+{% if submission.score > 0 %}
+<p>Score: {{submission.score}}</p>
+{% endif %}
+{% endblock %}

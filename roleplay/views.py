@@ -17,4 +17,8 @@ def case(request, pk):
         if form.is_valid():
             form.save()
         return redirect('roleplay')
-    return render(request, 'roleplay/case.html', {'case':Case.objects.get(pk=pk), 'form':form})
+    return render(request, 'roleplay/case.html', {'case':Case.objects.get(pk=pk), 'form':form, 'submissions':Submission.objects.filter(student=request.user).order_by('-date')})
+
+@login_required(login_url='accounts:login')
+def feedback(request, pk):
+    return render(request, 'roleplay/feedback.html', {'submission': Submission.objects.get(pk=pk)})

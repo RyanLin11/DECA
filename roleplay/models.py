@@ -55,6 +55,9 @@ class Submission(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(default=datetime.now, blank=True)
     audio_file = models.FileField(upload_to="case/audio/")
-    
+    marked = models.BooleanField(default=False)
+    feedback_strength = models.TextField(default='')
+    feedback_improvement = models.TextField(default='')
+    score = models.IntegerField(default=0)
     def __str__(self):
         return self.case.title+" ("+self.student.username+")"

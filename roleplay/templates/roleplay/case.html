@@ -23,4 +23,14 @@
     <input type="file" name="audio_file">
     <button type='submit' class="btn btn-primary">Submit</button>
 </form>
+{% if submissions.count > 0 %}
+    <h2>My Submissions</h2>
+{% endif %}
+{% for submission in submissions %}
+    {% if submission.marked %}
+        <p><a href="{% url 'feedback' pk=submission.id %}">{{submission.date}}</a></p>
+    {% else %}
+        <p>{{submission.date}}</p>
+    {% endif %}
+{% endfor %}
 {% endblock %}

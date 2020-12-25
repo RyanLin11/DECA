@@ -22,4 +22,5 @@ from . import views
 urlpatterns = [
     path('', views.index, name='roleplay'),
     path('<int:pk>', views.case, name='case'),
+    path('<int:pk>/feedback', views.feedback, name='feedback'),
 ]
