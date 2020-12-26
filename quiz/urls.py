@@ -22,6 +22,5 @@ app_name = 'quiz'
 urlpatterns = [
     path('', views.index, name='quiz'),
     path('<int:num>/', views.exam, name='exam'),
-    path('<int:num>/grade/', views.grade, name='grade'),
     path('<int:num>/results/', views.results, name='results'),
 ]
