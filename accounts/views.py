@@ -3,8 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .forms import CreateUserForm
+from .forms import CreateUserForm, ProfileForm
 from django.contrib.auth.decorators import login_required
+from .models import Profile
 
 # Create your views here.
 def registerPage(request):
@@ -38,3 +39,19 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('accounts:login')
+
+def update_profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=request.user.profile)
+        print('posted')
+        if form.is_valid():
+            form.save()
+            return redirect('quiz:quiz')
+    else:
+        try:
+            form = ProfileForm(instance=request.user.profile)
+        except Profile.DoesNotExist:
+            profile = Profile(user=request.user)
+            profile.save()
+            form = ProfileForm(instance=request.user.profile)
+    return render(request, 'accounts/edit_profile.html', context = {'form':form})
