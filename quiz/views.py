@@ -9,8 +9,12 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required(login_url='accounts:login')
 def index(request):
-    exams = {'Exams':Exam.objects.all()}
-    return render(request, 'quiz/index.html', exams)
+    context = {}
+    if request.user.profile.event is not None:
+        context['Exams'] = Exam.objects.filter(exam_cluster=request.user.profile.event.cluster)
+    else:
+        context['Exams'] = Exam.objects.all()
+    return render(request, 'quiz/index.html', context)
 
 @login_required(login_url='accounts:login')
 def exam(request, num):

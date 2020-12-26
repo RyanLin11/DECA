@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .forms import ProfileForm, ChangeUserForm
+from .forms import ProfileForm, ChangeUserForm, CreateUserForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 

@@ -1,24 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from roleplay.models import Cluster
 
 # Create your models here.
 class Exam(models.Model):
     exam_number = models.IntegerField()
-    BUSINESS_MANAGEMENT = 'MN'
-    FINANCE = 'FI'
-    PRINCIPLES = 'PI'
-    MARKETING = 'MK'
-    HOSPITALITY_AND_TOURISM = 'HT'
-    ENTREPRENEURSHIP = 'EN'
-    CLUSTER_CHOICES = [
-        (BUSINESS_MANAGEMENT, 'Business Management'),
-        (FINANCE, 'Finance'),
-        (PRINCIPLES, 'Principles'),
-        (MARKETING, 'MK'),
-        (HOSPITALITY_AND_TOURISM, 'Hospitality and Tourism'),
-        (ENTREPRENEURSHIP, 'Entrepreneurship'),
-    ]
-    exam_cluster = models.CharField(max_length=2, choices=CLUSTER_CHOICES, default=PRINCIPLES,)
+    exam_cluster = models.ForeignKey(Cluster, on_delete=models.CASCADE)
     def __str__(self):
         return str(self.exam_number)
 

@@ -6,7 +6,12 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required(login_url='accounts:login')
 def index(request):
-    return render(request, 'roleplay/index.html', {'cases': Case.objects.all()})
+    context = {}
+    if request.user.profile.event is not None:
+        context['cases'] = Case.objects.filter(event=request.user.profile.event)
+    else:
+        context['cases'] = Case.objects.all()
+    return render(request, 'roleplay/index.html', context)
 
 @login_required(login_url='accounts:login')
 def case(request, pk):
