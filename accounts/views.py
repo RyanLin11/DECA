@@ -43,15 +43,12 @@ def logoutUser(request):
 def update_profile(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=request.user.profile)
-        print('posted')
         if form.is_valid():
             form.save()
             return redirect('quiz:quiz')
     else:
-        try:
-            form = ProfileForm(instance=request.user.profile)
-        except Profile.DoesNotExist:
+        if not hasattr(request.user, 'profile'):
             profile = Profile(user=request.user)
             profile.save()
-            form = ProfileForm(instance=request.user.profile)
+        form = ProfileForm(instance=request.user.profile)
     return render(request, 'accounts/edit_profile.html', context = {'form':form})
