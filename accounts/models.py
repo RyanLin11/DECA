@@ -7,11 +7,9 @@ from django.dispatch import receiver
 
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     bio = models.TextField(max_length=500, blank=True)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True)
-    def __str__(self):
-        return self.user.username
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

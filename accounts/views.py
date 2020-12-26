@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .forms import CreateUserForm, ProfileForm
+from .forms import ProfileForm, ChangeUserForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 
@@ -43,12 +43,15 @@ def logoutUser(request):
 def update_profile(request):
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=request.user.profile)
-        if form.is_valid():
+        user_form = ChangeUserForm(request.POST, instance=request.user)
+        if form.is_valid() and user_form.is_valid():
             form.save()
+            user_form.save()
             return redirect('quiz:quiz')
     else:
         if not hasattr(request.user, 'profile'):
             profile = Profile(user=request.user)
             profile.save()
+        user_form = ChangeUserForm(instance=request.user)
         form = ProfileForm(instance=request.user.profile)
-    return render(request, 'accounts/edit_profile.html', context = {'form':form})
+    return render(request, 'accounts/edit_profile.html', context = {'user_form':user_form,'form':form})
