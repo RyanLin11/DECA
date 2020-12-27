@@ -7,7 +7,10 @@ from .forms import ProfileForm, ChangeUserForm, CreateUserForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 from roleplay.models import Submission
+from quiz.models import UserExam, Exam
 from datetime import date
+import json
+from django.db import models
 
 # Create your views here.
 def registerPage(request):
@@ -59,4 +62,17 @@ def update_profile(request):
     return render(request, 'accounts/edit_profile.html', context = {'user_form':user_form,'form':form})
 
 def index(request):
-    return render(request, 'accounts/index.html', {'submissions': Submission.objects.filter(marked=True),'date':date.today(), 'profile':request.user.profile})
+    exams = UserExam.objects.filter(user=request.user)
+    finished_exams_sorted = exams.filter(is_finished=True).order_by('date')
+    titles = []
+    scores = []
+    for user_exam in finished_exams_sorted:
+        titles.append("Exam "+str(user_exam.exam.exam_number))
+        scores.append(user_exam.score)
+    titles_json = json.dumps(titles)
+    scores_json = json.dumps(scores)
+    #calculate statistics
+    finished_exams = finished_exams_sorted.values("exam").distinct().count()
+    inprogress_exams = exams.values("exam").distinct().count() - finished_exams
+    new_exams = Exam.objects.all().count() - finished_exams - inprogress_exams
+    return render(request, 'accounts/index.html', {'submissions': Submission.objects.filter(marked=True),'date':date.today(), 'profile':request.user.profile, 'titles':json.dumps(titles), 'scores':json.dumps(scores), 'finished_exams':json.dumps(finished_exams), 'inprogress_exams':json.dumps(inprogress_exams), 'new_exams':json.dumps(inprogress_exams)})
