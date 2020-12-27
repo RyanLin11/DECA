@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from roleplay.models import Cluster
+from datetime import datetime
+from django.utils import timezone
 
 # Create your models here.
 class Exam(models.Model):
@@ -28,6 +30,7 @@ class UserExam(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     score = models.IntegerField(default=0)
     is_finished = models.BooleanField(default=False)
+    date = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.user.username + " "+ str(self.exam.exam_number)
 

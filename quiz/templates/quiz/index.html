@@ -1,12 +1,12 @@
 {% extends "quiz/base.html" %}
 {% block content %}
-    {% for exam in Exams %}
+    {% for exam, userexam in exams.items %}
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Exam {{exam.exam_number}}</h4>
                 <p class="card-text">{{exam.exam_cluster.title}}</p>
-                {% if exam.userexam_set.first.is_finished %}
-                    <p class="card-text">Score: {{exam.userexam_set.first.score}}</p>
+                {% if userexam.is_finished %}
+                    <p class="card-text">Score: {{userexam.score}}</p>
                 {% else %}
                     <p class="card-text">In-Progress</p>
                 {% endif %}
