@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, Exam, Choice, UserExam, UserAnswer
+from .models import Question, Exam, Choice, UserExam, UserAnswer, InstructionalArea
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
@@ -19,3 +19,4 @@ class ExamAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Exam, ExamAdmin)
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(InstructionalArea)

@@ -7,14 +7,20 @@ from django.utils import timezone
 # Create your models here.
 class Exam(models.Model):
     exam_number = models.IntegerField()
-    exam_cluster = models.ForeignKey(Cluster, on_delete=models.CASCADE)
+    exam_cluster = models.ForeignKey(Cluster, on_delete=models.PROTECT)
     def __str__(self):
         return str(self.exam_number)
+
+class InstructionalArea(models.Model):
+    title = models.CharField(max_length=100)
+    def __str__(self):
+        return self.title
 
 class Question(models.Model):
     question_text = models.CharField(max_length=500)
     question_explanation = models.TextField(default="N/A")
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    instructional_area = models.ForeignKey(InstructionalArea, null=True, on_delete=models.SET_NULL)
     def __str__(self):
         return self.question_text
 
