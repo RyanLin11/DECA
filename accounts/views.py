@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import ProfileForm, ChangeUserForm, CreateUserForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile
+from roleplay.models import Submission
+from datetime import date
 
 # Create your views here.
 def registerPage(request):
@@ -55,3 +57,6 @@ def update_profile(request):
         user_form = ChangeUserForm(instance=request.user)
         form = ProfileForm(instance=request.user.profile)
     return render(request, 'accounts/edit_profile.html', context = {'user_form':user_form,'form':form})
+
+def index(request):
+    return render(request, 'accounts/index.html', {'submissions': Submission.objects.filter(marked=True),'date':date.today(), 'profile':request.user.profile})

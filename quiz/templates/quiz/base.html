@@ -12,20 +12,20 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        <a href="#" class="navbar-brand">DECA Guide</a> 
+        <a href="{% url 'accounts:index' %}" class="navbar-brand">DECA Guide</a> 
         <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarMenu">
             <ul class="navbar-nav">
-                <li class="navbar-item">
-                    <a href="{% url 'quiz:quiz' %}" class="nav-link">Exam</a>
-                </li>
-                <li class="navbar-nav">
-                    <a href="{% url 'roleplay' %}" class="nav-link">Roleplay</a>
-                </li>
-                <li class="navbar-nav">
-                  <a href="{% url 'leaderboard' %}" class="nav-link">Leaderboard</a>
+              <li class="navbar-item">
+                  <a href="{% url 'quiz:quiz' %}" class="nav-link">Exam</a>
+              </li>
+              <li class="navbar-nav">
+                  <a href="{% url 'roleplay' %}" class="nav-link">Roleplay</a>
+              </li>
+              <li class="navbar-nav">
+                <a href="{% url 'leaderboard' %}" class="nav-link">Leaderboard</a>
               </li>
             </ul> 
         </div>
