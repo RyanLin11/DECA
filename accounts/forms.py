@@ -11,11 +11,15 @@ class CreateUserForm(UserCreationForm):
         fields = ['username', 'email', 'password1','password2']
 
 class ProfileForm(forms.ModelForm):
+    bio = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-user', 'placeholder':'Bio'}))
     class Meta:
         model = Profile
         fields = ['bio', 'event']
 
 class ChangeUserForm(forms.ModelForm):
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-user', 'placeholder':'First name'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-user', 'placeholder':'Last name'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control form-control-user', 'placeholder':'Email address'}))
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']

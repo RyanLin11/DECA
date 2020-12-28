@@ -65,7 +65,7 @@ def update_profile(request):
             profile.save()
         user_form = ChangeUserForm(instance=request.user)
         form = ProfileForm(instance=request.user.profile)
-    return render(request, 'accounts/edit_profile.html', context = {'user_form':user_form,'form':form})
+    return render(request, 'accounts/profile.html', context = {'user_form':user_form,'form':form})
 
 @login_required(login_url='accounts:login')
 def index(request):
