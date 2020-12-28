@@ -1,17 +1,66 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
+{% block title %}
+    Exams
+{% endblock %}
+
 {% block content %}
-    {% for exam, userexam in exams.items %}
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Exam {{exam.exam_number}}</h4>
-                <p class="card-text">{{exam.exam_cluster.title}}</p>
-                {% if userexam.is_finished %}
-                    <p class="card-text">Score: {{userexam.score}}</p>
-                {% else %}
-                    <p class="card-text">In-Progress</p>
-                {% endif %}
-                <a href="{% url 'quiz:exam' num=exam.exam_number %}" class="btn btn-primary">Enter</a>
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Multiple Choice Exams</h1>
+    <p class="mb-4">Get Exams tailored to your cluster by selecting your event in the Profile section.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Exams List</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="exam_list" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Cluster</th>
+                            <th>Status</th>
+                            <th>High Score</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for exam, user_exam in exams.items %}
+                            <tr>
+                                <td>{{exam.exam_number}}</td>
+                                <td>{{exam.exam_cluster}}</td>
+                                {% if user_exam is None %}
+                                    <td>Not Started</td>
+                                {% elif user_exam.is_finished %}
+                                    <td>Finished</td>
+                                {% else %}
+                                    <td>Started</td>
+                                {% endif %}
+                                <td>{{user_exam.score}}</td>
+                                <td><a href="{% url 'quiz:exam' num=exam.exam_number %}" class="btn btn-primary">Enter</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-    {% endfor %}
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $('#exam_list').DataTable({
+            "order":[[2,"desc"]]
+        });
+    });
+</script>
 {% endblock %}

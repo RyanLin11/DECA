@@ -1,20 +1,56 @@
 {% extends 'base.html' %}
+
+{% block title %}
+    Leaderboard
+{% endblock %}
+
 {% block content %}
-<h1>DECA Trudeau Leaderboards</h1>
-<table class="table table-striped table-bordered table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>Name</th>
-            <th>Points</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user in Users %}
-            <tr>
-                <td>{{user.username}}</td>
-                <td>N/A</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">DECA Points System</h1>
+    <p class="mb-4">Get points for doing multiple choice exams and submitting roleplays. A roleplay gives you 100 points, and an exam gives you points equal to your highest score. Have fun!</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Leaderboard</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="leaderboard" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Event</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user, point in points.items %}
+                            <tr>
+                                <td>{{user.username}}</td>   
+                                <td>{{user.profile.event}}</td>
+                                <td>{{point}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- /.container-fluid -->
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $('#leaderboard').DataTable({
+            "order":[[2,"desc"]]
+        });
+    });
+</script>
 {% endblock %}

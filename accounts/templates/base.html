@@ -23,6 +23,8 @@
 
     <!-- Custom styles for this template-->
     <link href="{% static 'accounts/css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'accounts/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
 </head>
 <body id="page-top">
 
@@ -128,7 +130,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; DECA Guide 2020</span>
                     </div>
                 </div>
             </footer>
@@ -174,6 +176,10 @@
 
     <!-- Page level plugins -->
     <script src="{% static 'accounts/vendor/chart.js/Chart.min.js' %}"></script>
+    
+    <script src="{% static 'accounts/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'accounts/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'accounts/js/demo/datatables-demo.js' %}"></script>
     {% block script %}
     {% endblock %}
 </body>

@@ -96,4 +96,22 @@ def index(request):
                 total+=1
         if total > 0:
             ia_correct[ia.title] = int(correct/total * 100)
-    return render(request, 'accounts/index.html', {'submissions': Submission.objects.filter(marked=True),'date':date.today(), 'profile':request.user.profile, 'titles':json.dumps(titles), 'scores':json.dumps(scores), 'finished_exams':json.dumps(finished_exams), 'inprogress_exams':json.dumps(inprogress_exams), 'new_exams':json.dumps(new_exams), 'ia_correct':ia_correct})
+    #determine points
+    #get highest score per exam
+    hi_scores = {}
+    for user_exam in UserExam.objects.filter(user=request.user, is_finished=True):
+        exam = user_exam.exam
+        if exam in hi_scores:
+            hi_scores[exam] = max(user_exam.score, hi_scores[exam])
+        else:
+            hi_scores[exam] = user_exam.score
+    #sum up highest exam scores
+    points = 0
+    for score in hi_scores.values():
+        points += score
+    #get number of unique roleplay submissions
+    subs = {}
+    for submission in Submission.objects.filter(student=request.user, marked=True):
+        subs.add(submission.case)
+    points += len(subs) * 100
+    return render(request, 'accounts/index.html', {'submissions': Submission.objects.filter(marked=True),'date':date.today(), 'profile':request.user.profile, 'titles':json.dumps(titles), 'scores':json.dumps(scores), 'finished_exams':json.dumps(finished_exams), 'inprogress_exams':json.dumps(inprogress_exams), 'new_exams':json.dumps(new_exams), 'ia_correct':ia_correct, 'points':points})

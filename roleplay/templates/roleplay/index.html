@@ -1,12 +1,56 @@
 {% extends 'base.html' %}
+
+{% block title %}
+    Roleplays
+{% endblock %}
+
 {% block content %}
-{% for case in cases %}
-    <div class="card">
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Roleplays</h1>
+    <p class="mb-4">Practice Cases and Submit Audio for grading by the Exec Team.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Leaderboard</h6>
+        </div>
         <div class="card-body">
-            <h4 class="card-title">{{case.title}}</h4>
-            <p class="card-text">{{case.event.title}}</p>
-            <a href="{% url 'case' pk=case.id %}" class="btn btn-primary">Enter</a>
+            <div class="table-responsive">
+                <table class="table table-bordered" id="leaderboard" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Event</th>
+                            <th>Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for case in cases %}
+                            <tr>
+                                <td>{{case.title}}</td>
+                                <td>{{case.event}}</td>
+                                <td><a href="{% url 'case' pk=case.id %}" class="btn btn-primary">Enter</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-{% endfor %}
+
+</div>
+<!-- /.container-fluid -->
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function(){
+        $('#leaderboard').DataTable({
+            "order":[[2,"desc"]]
+        });
+    });
+</script>
 {% endblock %}
