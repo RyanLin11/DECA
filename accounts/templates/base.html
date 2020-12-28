@@ -10,7 +10,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>DECA Guide Dashboard</title>
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
 
     <!-- Custom fonts for this template-->
     <link href="{% static 'accounts/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
@@ -39,7 +42,7 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <a class="navbar-brand" href="#">DECA Guide</a>
+                    <a class="navbar-brand" href="{% url 'accounts:index' %}">DECA Guide</a>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
