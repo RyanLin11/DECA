@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from .models import Profile
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 
 class CreateUserForm(UserCreationForm):
@@ -23,10 +23,13 @@ class ChangeUserForm(forms.ModelForm):
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-user','placeholder':'Username'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control form-control-user','placeholder':'Password'}))
-    """
+
+class RegisterForm(UserCreationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-user', 'placeholder':'Username'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control form-control-user','placeholder':'Email'}))
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control form-control-user', 'placeholder':'Password'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control form-control-user', 'placeholder':'Re-enter Password'}))
+    
     class Meta:
-        widgets = {
-            'username':forms.TextInput(attrs={'class':'form-control form-control-user', 'id':'exampleInputPassword','placeholder':'Password...'}),
-            'password':forms.PasswordInput(attrs={'class':'form-control form-control-user'}),
-        }
-    """
+        model = User
+        fields = ['username', 'email']

@@ -3,27 +3,29 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .forms import ProfileForm, ChangeUserForm, CreateUserForm, LoginForm
+from .forms import ProfileForm, ChangeUserForm, CreateUserForm, LoginForm, RegisterForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 from roleplay.models import Submission
 from quiz.models import UserExam, Exam, InstructionalArea
-from datetime import date
 import json
 from django.db import models
 from django.contrib.auth.decorators import login_required
+from datetime import date
 
 # Create your views here.
 def registerPage(request):
     if request.user.is_authenticated:
         return redirect('quiz:quiz')
     else:
-        form = CreateUserForm()
+        form = RegisterForm()
         if request.method == 'POST':
-            form = CreateUserForm(request.POST)
+            form = RegisterForm(request.POST)
+            print('post lol')
             if form.is_valid():
                 form.save()
                 return redirect('accounts:login')
+            print('not success')
         context = {'form':form}
         return render(request, 'accounts/register.html', context)
 
@@ -43,6 +45,7 @@ def loginPage(request):
         context = {'form':form}
         return render(request, 'accounts/login.html', context)
 
+@login_required(login_url='accounts:login')
 def logoutUser(request):
     logout(request)
     return redirect('accounts:login')
@@ -87,7 +90,7 @@ def index(request):
         correct = 0
         total = 0
         for question in ia.question_set.all():
-            for answer in question.useranswer_set.all():
+            for answer in question.useranswer_set.filter(user_exam__user=request.user):
                 if answer.choice.is_correct:
                     correct+=1
                 total+=1
