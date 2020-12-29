@@ -16,6 +16,8 @@ from dotenv import load_dotenv
 import django_heroku
 import dj_database_url
 from decouple import config
+from . import custom_storages
+
 
 load_dotenv()
 
@@ -28,6 +30,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
+
+AWS_STORAGE_BUCKET_NAME = str(os.getenv('AWS_STORAGE_BUCKET_NAME'))
+AWS_S3_REGION_NAME = 'us-east-2'
+AWS_ACCESS_KEY_ID = str(os.getenv('AWS_ACCESS_KEY_ID'))
+AWS_SECRET_ACCESS_KEY = str(os.getenv('AWS_SECRET_ACCESS_KEY'))
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.%s.amazonaws.com' % (AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME)
+AWS_LOCATION = 'static'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+#STATIC_ROOT = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -49,6 +65,7 @@ INSTALLED_APPS = [
     'leaderboard.apps.LeaderboardConfig',
     'roleplay.apps.RoleplayConfig',
     'django_cleanup',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -59,7 +76,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -133,16 +150,16 @@ FILE_UPLOAD_HANDLERS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+#STATIC_URL = '/static/'
 """
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static/'),
 )
 """
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = "/media/"
 
-django_heroku.settings(locals())
+django_heroku.settings(locals(), staticfiles=False)
