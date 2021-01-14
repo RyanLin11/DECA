@@ -35,10 +35,10 @@
                             <tr>
                                 <td>{{exam.exam_number}}</td>
                                 <td>{{exam.exam_cluster}}</td>
-                                {% if examinfo|get_item:"is_started" %}
-                                    <td>Started</td>
-                                {% elif examinfo|get_item:"is_finished" %}
+                                {% if examinfo|get_item:"is_finished" %}
                                     <td>Finished</td>
+                                {% elif examinfo|get_item:"is_started" %}
+                                    <td>Started</td>
                                 {% else %}
                                     <td>Not Started</td>
                                 {% endif %}

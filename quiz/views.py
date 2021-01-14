@@ -26,8 +26,12 @@ def index(request):
         submitted_exams = UserExam.objects.filter(exam=exam, user=request.user)
         #only direct students to the most recent exam
         most_recent_exam = submitted_exams.order_by('-date').first()
-        is_finished = most_recent_exam.is_finished
-        is_started = most_recent_exam is None
+        if most_recent_exam is None:
+            is_finished = False
+            is_started = False
+        else:
+            is_finished = most_recent_exam.is_finished
+            is_started = True
         #determine the highest score for this exam
         high_score = 0
         for subexam in submitted_exams:
