@@ -110,8 +110,8 @@ def index(request):
     for score in hi_scores.values():
         points += score
     #get number of unique roleplay submissions
-    subs = {}
+    subs = []
     for submission in Submission.objects.filter(student=request.user, marked=True):
-        subs.add(submission.case)
-    points += len(subs) * 100
+        subs.append(submission.case)
+    points += len(set(subs)) * 100
     return render(request, 'accounts/index.html', {'submissions': Submission.objects.filter(marked=True),'date':date.today(), 'profile':request.user.profile, 'titles':json.dumps(titles), 'scores':json.dumps(scores), 'finished_exams':json.dumps(finished_exams), 'inprogress_exams':json.dumps(inprogress_exams), 'new_exams':json.dumps(new_exams), 'ia_correct':ia_correct, 'points':points})

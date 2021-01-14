@@ -1,14 +1,50 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>{{submission.case.title}}</h1>
-<p>Event: {{submission.case.event.title}}</p>
-<p>Date: {{submission.date}}</p>
-<h2>Your Strengths: </h2>
-<p>{{submission.feedback_strength}}</p>
-<h2>Suggestions for Improvement: </h2>
-<p>{{submission.feedback_improvement}}</p>
-<br>
-{% if submission.score > 0 %}
-<p>Score: {{submission.score}}</p>
-{% endif %}
+<!-- Project Card Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Submission Info</h6>
+    </div>
+    <div class="card-body">
+        <p>Case: <a href="{% url 'case' submission.case.pk %}">{{submission.case.title}}</a></p>
+        <p>Event: {{submission.case.event.title}}</p>
+        <p>Level: {{submission.case.get_level_display}}</p>
+        <p>Time: {{submission.date}}</p>
+        {% if submission.score > 0 %}
+            <p>Score: {{submission.score}} / 100</p>
+        {% endif %}
+        <a href="{{submission.audio_file.url}}" target="blank" class="btn btn-primary btn-icon-split">
+            <span class="icon text-white-50">
+                <i class="fas fa-arrow-right"></i>
+            </span>
+            <span class="text">Replay Presentation</span>
+        </a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <a href="#strengths" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="strengths">
+                <h6 class="m-0 font-weight-bold text-primary">Strengths</h6>
+            </a>
+            <div class="collapse show" id="strengths">
+                <div class="card-body">
+                    {{submission.feedback_strength}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <a href="#improvement" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="improvement">
+                <h6 class="m-0 font-weight-bold text-primary">Suggestions for Improvement</h6>
+            </a>
+            <div class="collapse show" id="improvement">
+                <div class="card-body">
+                    {{submission.feedback_improvement}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

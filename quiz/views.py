@@ -20,6 +20,14 @@ def index(request):
     for exam in exams:
         exams_dict[exam] = UserExam.objects.filter(exam=exam, user=request.user).order_by('-date').first()
     context['exams'] = exams_dict
+    hi_scores = {}
+    for user_exam in UserExam.objects.filter(user=request.user, is_finished=True):
+        exam = user_exam.exam
+        if exam in hi_scores:
+            hi_scores[exam] = max(user_exam.score, hi_scores[exam])
+        else:
+            hi_scores[exam] = user_exam.score
+    context['highscores'] = hi_scores
     return render(request, 'quiz/index.html', context)
 
 @login_required(login_url='accounts:login')

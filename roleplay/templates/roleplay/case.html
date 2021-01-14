@@ -1,36 +1,87 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>{{case.title}}</h1>
-<p>{{case.event.title}} - {{case.year}} {{case.get_level_display}}</p>
-<a href="{% url 'roleplay' %}" class="btn btn-link">Back to Case List</a>
-<h2>Performance Indicators</h2>
-<ul>
-    {% for pi in case.pi_set.all %}
-        <li>{{pi.title}}</li>
-    {% endfor %}
-</ul>
-<h2>Case Situation</h2>
-<p>{{case.description}}</p>
-<h2>Questions</h2>
-<ul>
-    {% for question in case.casequestion_set.all %}
-        <li>{{question.title}}</li>
-    {% endfor %}
-</ul>
-<form action='' method='POST' enctype='multipart/form-data'>
-    {% csrf_token %}
-    <!--{{form.as_p}}-->
-    <input type="file" name="audio_file">
-    <button type='submit' class="btn btn-primary">Submit</button>
-</form>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">{{case.title}} - {{case.year}} {{case.get_level_display}}</h6>
+    </div>
+    <div class="card-body">
+        <!--<a href="{% url 'roleplay' %}" class="btn btn-link">Back to Case List</a>-->
+        <p>{{case.description}}</p>
+    </div>
+</div>
+<div class="card shadow mb-4">
+    <a href="#pi" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="pi">
+        <h6 class="m-0 font-weight-bold text-primary">Performance Indicators</h6>
+    </a>
+    <div class="collapse show" id="pi">
+        <div class="card-body">
+            <ul>
+                {% for pi in case.pi_set.all %}
+                    <li>{{pi.title}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<!--<div class="card shadow mb-4">
+    <a href="#strengths" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="strengths">
+        <h6 class="m-0 font-weight-bold text-primary">Case Situation</h6>
+    </a>
+    <div class="collapse show" id="strengths">
+        <div class="card-body">
+            <p>{{case.description}}</p>
+        </div>
+    </div>
+</div>-->
+<div class="card shadow mb-4">
+    <a href="#caseq" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="caseq">
+        <h6 class="m-0 font-weight-bold text-primary">Questions</h6>
+    </a>
+    <div class="collapse show" id="caseq">
+        <div class="card-body">
+            <ul>
+                {% for question in case.casequestion_set.all %}
+                    <li>{{question.title}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div>
 {% if submissions.count > 0 %}
-    <h2>My Submissions</h2>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Submit</h6>
+        </div>
+        <div class="card-body">
+            <form action='' method='POST' enctype='multipart/form-data'>
+                {% csrf_token %}
+                <!--{{form.as_p}}-->
+                <input type="file" name="audio_file">
+                <button type='submit' class="btn btn-primary">Submit</button>
+            </form>
+            <br>
+            <div class="card shadow mb-4">
+                <a href="#pastsub" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="pastsub">
+                    <h6 class="m-0 font-weight-bold text-primary">Past Submissions</h6>
+                </a>
+                <div class="collapse" id="pastsub">
+                    <div class="card-body">
+                        <ul>
+                            {% for submission in submissions %}
+                                {% if submission.marked %}
+                                    <p><a href="{% url 'feedback' pk=submission.id %}">{{submission.date}}</a></p>
+                                {% else %}
+                                    <p>{{submission.date}}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endif %}
-{% for submission in submissions %}
-    {% if submission.marked %}
-        <p><a href="{% url 'feedback' pk=submission.id %}">{{submission.date}}</a></p>
-    {% else %}
-        <p>{{submission.date}}</p>
-    {% endif %}
-{% endfor %}
 {% endblock %}

@@ -41,7 +41,11 @@
                                 {% else %}
                                     <td>Started</td>
                                 {% endif %}
-                                <td>{{user_exam.score}}</td>
+                                {% for exam1, score in highscores.items %}
+                                    {% if exam == exam1 %}
+                                        <td>{{user_exam.score}}</td>
+                                    {% endif %}
+                                {% endfor %}
                                 <td><a href="{% url 'quiz:exam' num=exam.exam_number %}" class="btn btn-primary">Enter</a></td>
                             </tr>
                         {% endfor %}
