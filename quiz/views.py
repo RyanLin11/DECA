@@ -8,30 +8,40 @@ from datetime import datetime
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
 @login_required(login_url='accounts:login')
 def index(request):
+    """
+    Displays a list of exams tailored to a student's competitive event.
+    """
     context = {}
+    #get the list of exams in order of recency
+    exams = Exam.objects.all()
+    #only get exams relevant to the user's event if it is specified
     if request.user.profile.event is not None:
-        exams = Exam.objects.filter(exam_cluster=request.user.profile.event.cluster)
-    else:
-        exams = Exam.objects.all()
+        exams = exams.filter(exam_cluster=request.user.profile.event.cluster)
+    #collect exam information to display
     exams_dict = {}
     for exam in exams:
-        exams_dict[exam] = UserExam.objects.filter(exam=exam, user=request.user).order_by('-date').first()
+        #get all submissions this user made to this exam
+        submitted_exams = UserExam.objects.filter(exam=exam, user=request.user)
+        #only direct students to the most recent exam
+        most_recent_exam = submitted_exams.order_by('-date').first()
+        is_finished = most_recent_exam.is_finished
+        is_started = most_recent_exam is None
+        #determine the highest score for this exam
+        high_score = 0
+        for subexam in submitted_exams:
+            high_score = max(high_score, subexam.score)
+        exams_dict[exam] = {'is_finished': is_finished, 'is_started':is_started, 'high_score':high_score, 'most_recent_exam': most_recent_exam}
     context['exams'] = exams_dict
-    hi_scores = {}
-    for user_exam in UserExam.objects.filter(user=request.user, is_finished=True):
-        exam = user_exam.exam
-        if exam in hi_scores:
-            hi_scores[exam] = max(user_exam.score, hi_scores[exam])
-        else:
-            hi_scores[exam] = user_exam.score
-    context['highscores'] = hi_scores
+    #render the template
     return render(request, 'quiz/index.html', context)
 
 @login_required(login_url='accounts:login')
 def exam(request, num):
+    """
+    Displays all the questions of an exam
+    """
     if request.method == 'POST':
         exam = Exam.objects.get(exam_number=num)
         questions = Question.objects.filter(exam=exam)
@@ -79,6 +89,9 @@ def exam(request, num):
 
 @login_required(login_url='accounts:login')
 def results(request, num):
+    """
+    Displays the results from a user's submitted exam
+    """
     user_exam = UserExam.objects.filter(exam__exam_number=num, user=request.user).order_by('-date').first()
     all_answers = UserAnswer.objects.filter(user_exam=user_exam)
     correct_answers = all_answers.filter(choice__is_correct=True)

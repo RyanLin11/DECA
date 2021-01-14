@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load quiz_filter %}
 
 {% block title %}
     Exams
@@ -30,24 +31,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for exam, user_exam in exams.items %}
-                            <tr>
-                                <td>{{exam.exam_number}}</td>
-                                <td>{{exam.exam_cluster}}</td>
-                                {% if user_exam is None %}
-                                    <td>Not Started</td>
-                                {% elif user_exam.is_finished %}
-                                    <td>Finished</td>
-                                {% else %}
-                                    <td>Started</td>
-                                {% endif %}
-                                {% for exam1, score in highscores.items %}
-                                    {% if exam == exam1 %}
-                                        <td>{{user_exam.score}}</td>
-                                    {% endif %}
-                                {% endfor %}
-                                <td><a href="{% url 'quiz:exam' num=exam.exam_number %}" class="btn btn-primary">Enter</a></td>
-                            </tr>
+                        {% for exam, examinfo in exams.items %}
+                            <td>{{exam.exam_number}}</td>
+                            <td>{{exam.exam_cluster}}</td>
+                            {% if examinfo|get_item:"is_started" %}
+                                <td>Started</td>
+                            {% elif examinfo|get_item:"is_finished" %}
+                                <td>Finished</td>
+                            {% else %}
+                                <td>Not Started</td>
+                            {% endif %}
+                            <td>{{examinfo|get_item:"high_score"}}</td>
+                            <td><a href="{% url 'quiz:exam' num=exam.exam_number %}" class="btn btn-primary">Enter</a></td>
                         {% endfor %}
                     </tbody>
                 </table>
