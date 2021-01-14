@@ -27,7 +27,7 @@ def index(request):
             points += score
         #get number of unique roleplay submissions
         subs = set()
-        for submission in Submission.objects.filter(student=request.user, marked=True):
+        for submission in Submission.objects.filter(student=user, marked=True):
             subs.add(submission.case)
         points += len(subs) * 100
         point[user] = points
