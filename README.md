@@ -9,13 +9,13 @@ A Website to help students study for DECA
 # Screenshots
 
 ## Admin Dashboard
-![admin page](https://ibb.co/YQXF753)
+![admin page](https://i.ibb.co/RbNkpX9/Image-2023-08-02-at-6-58-PM.jpg)
 
 ## See Student's Presentations
-![presentations](https://ibb.co/Sx6cVgS)
+![presentations](https://i.ibb.co/JdcqrTZ/Image-2023-08-02-at-7-00-PM.jpg)
 
 ## Marking Presentation
-![admin feedback page](https://ibb.co/PCxW3DQ)
+![admin feedback page](https://i.ibb.co/h8sdhYf/Image-2023-08-02-at-6-59-PM.jpg)
 
 ## Student Dashboard
-![dashboard](https://ibb.co/KG3cWBb)
+![dashboard](https://i.ibb.co/JdMWH8m/Image-2023-08-02-at-7-00-PM-1.jpg)
